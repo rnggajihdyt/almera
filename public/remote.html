@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ALMERA Remote Clicker</title>
+  <link rel="stylesheet" href="/css/remote.css">
+  <link rel="icon" type="image/png" href="/img/Almera.png">
+</head>
+<body>
+  <div class="remote-container">
+    
+    <!-- Top HUD Bar (15%) -->
+    <header class="remote-top-bar">
+      <div class="top-row">
+        <div class="room-pill" id="room-pill-btn" role="button" tabindex="0" title="Sentuh untuk ganti kode room">
+          <span class="status-indicator" id="conn-indicator"></span>
+          <span id="room-code-text">ALMERA</span>
+        </div>
+        <div class="top-actions-right">
+          <button class="theme-toggle-pill" id="btn-theme-toggle" aria-label="Ganti Tema Terang atau Gelap" title="Ganti Mode Terang / Gelap">
+            <i class="ri-moon-line" id="theme-icon"></i>
+            <span id="theme-label">Dark</span>
+          </button>
+          <div class="wakelock-indicator" id="wakelock-status" title="Screen Wake Lock">
+            <span><i class="ri-flashlight-line"></i> Layar Aktif</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="middle-row">
+        <div class="timer-large" id="remote-timer">00:00</div>
+        <div class="slide-badge-box">
+          <span class="slide-main" id="remote-slide-num">Slide 01 / 12</span>
+          <div class="substep-dots" id="substep-dots"></div>
+        </div>
+      </div>
+
+      <div class="bottom-row-hud">
+        <span class="slide-title-hud" id="remote-slide-title">Memuat Materi...</span>
+      </div>
+    </header>
+
+    <!-- Middle Action: Secondary PREV Button (15%) -->
+    <section class="prev-action-section">
+      <button class="btn-touch btn-prev" id="btn-prev" aria-label="Slide Sebelumnya">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        <span>PREVIOUS</span>
+      </button>
+    </section>
+
+    <!-- Bottom Action: GIANT NEXT Button (70%) -->
+    <main class="giant-next-section">
+      <button class="btn-touch btn-giant-next" id="btn-next" aria-label="Slide atau Item Berikutnya">
+        <div class="next-inner-content">
+          <span class="next-action-label">NEXT</span>
+          <svg class="next-arrow-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+          <span class="next-helper-label">Sentuh di mana saja untuk lanjut</span>
+        </div>
+      </button>
+    </main>
+
+    <!-- Toast Banner / Disconnected & Room Fallback Overlay (R-34) -->
+    <div class="disconnected-banner" id="disconnect-overlay">
+      <div class="reconnecting-box" id="reconnecting-box">
+        <div class="spinner"></div>
+        <h4 id="disconnect-title">Koneksi Terputus</h4>
+        <p id="disconnect-desc">Mencoba menghubungkan ulang ke proyektor...</p>
+      </div>
+
+      <div class="room-input-card" id="room-input-card" style="display: none;">
+        <div class="room-card-icon"><i class="ri-tv-2-line"></i></div>
+        <h4 id="room-card-title">Hubungkan ke Presenter</h4>
+        <p id="room-card-desc">Masukkan kode room yang tertera pada pojok layar proyektor atau modal QR.</p>
+        <form id="form-manual-room" class="room-input-group" onsubmit="return false;">
+          <input type="text" id="manual-room-input" placeholder="KODE ROOM" maxlength="16" autocomplete="off" autocapitalize="characters" spellcheck="false" />
+          <button type="submit" id="btn-manual-join" class="btn-join-room">Hubungkan Remote</button>
+        </form>
+        <div class="room-error-msg" id="room-join-error" style="display: none;"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/remote.js"></script>
+</body>
+</html>

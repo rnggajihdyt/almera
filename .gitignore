@@ -1,0 +1,69 @@
+# ========================================================
+# ALMERA Presenter Project - .gitignore
+# ========================================================
+
+# Dependencies
+node_modules/
+package-lock.json.bak
+.pnp
+.pnp.js
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment Variables & Local Configs
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env.json
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE & Code Editor Files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.bak
+*~
+
+# Build, Bundles & Caches
+dist/
+build/
+.cache/
+.parcel-cache/
+.eslintcache
+.temp/
+tmp/
+temp/
+
+# AI Agent, Skills & Anti-Slop Configurations
+.agents/
+agent/
+anti-slop/
+skills-lock.json
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.gemini/
