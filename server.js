@@ -11,7 +11,7 @@ const io = new Server(server, {
   cors: { origin: '*' }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3005;
 
 // Helper: Deteksi IP Wi-Fi / LAN Lokal Laptop (Prioritaskan kartu jaringan fisik)
 function getLocalIpAddress() {
@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 
     const localIp = getLocalIpAddress();
     const remoteUrl = `http://${localIp}:${PORT}/remote?room=${roomId}`;
-    
+
     let qrDataUrl = '';
     try {
       qrDataUrl = await qrcode.toDataURL(remoteUrl, {
@@ -78,7 +78,7 @@ io.on('connection', (socket) => {
       remoteSocketId: null,
       currentSlide: 1,
       currentStep: 0,
-      totalSlides: totalSlides || 12,
+      totalSlides: totalSlides || 13,
       slideSteps: slideSteps || {},
       slideTitles: slideTitles || [],
       stopwatchSeconds: 0,
@@ -189,6 +189,17 @@ io.on('connection', (socket) => {
     if (slideIndex >= 1 && slideIndex <= room.totalSlides) {
       room.currentSlide = slideIndex;
       room.currentStep = 0;
+      broadcastSlideState(room);
+    }
+  });
+
+  // Perintah GOTO Sub-step Spesifik
+  socket.on('action:step', ({ roomId, step }) => {
+    const room = rooms.get(roomId);
+    if (!room) return;
+    const maxSteps = (room.slideSteps && room.slideSteps[room.currentSlide]) || 0;
+    if (step >= 0 && step <= maxSteps) {
+      room.currentStep = step;
       broadcastSlideState(room);
     }
   });

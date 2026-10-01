@@ -80,11 +80,11 @@ const SLIDES_DATA = [
                   <h3 class="member-name">Kelvin Nur Ramadhan</h3>
                   <span class="member-badge-presensi">Presensi: 02</span>
                 </div>
-                <span class="member-role">Coordinator & Strategic Planning</span>
-                <p class="member-desc">Memimpin perancangan strategi bisnis, manajemen timeline, dan koordinasi antar divisi kerja.</p>
+                <span class="member-role">Procurement Marketing</span>
+                <p class="member-desc">Memasarkan produk secara efektif untuk mendorong penjualan konsumen, sekaligus menegosiasikan harga terendah, kelonggaran MOQ, dan sistem tempo kepada vendor, guna mengamankan pasokan berkualitas tanpa menguras modal awal.</p>
                 <div class="skill-chips">
-                  <span class="chip chip-1">Project Mgmt</span>
-                  <span class="chip chip-2">Client Relation</span>
+                  <span class="chip chip-1">Vendor Negotiation</span>
+                  <span class="chip chip-2">Social Marketing</span>
                 </div>
               </div>
             </div>
@@ -100,7 +100,7 @@ const SLIDES_DATA = [
               <div class="member-info">
                 <div class="member-header">
                   <h3 class="member-name">Mandala Adi Santoso</h3>
-                  <span class="member-badge-role">Creative Lead</span>
+                  <span class="member-badge-role">Presensi: 09</span>
                 </div>
                 <span class="member-role">Creative Design Lead & Mockup Specialist</span>
                 <p class="member-desc">Mengeksekusi konsep visual kreatif, mock-up baju PDH, desain vector merchandise ekskul, dan katalog produk.</p>
@@ -122,13 +122,13 @@ const SLIDES_DATA = [
               <div class="member-info">
                 <div class="member-header">
                   <h3 class="member-name">Muhammad Uzairon Ibrahim</h3>
-                  <span class="member-badge-role">Production</span>
+                  <span class="member-badge-role">Presensi: 12</span>
                 </div>
-                <span class="member-role">Vendor & Production Quality Controller</span>
-                <p class="member-desc">Menangani negosiasi harga vendor konveksi & percetakan, serta inspeksi ketat *quality control* sebelum barang diserahterimakan.</p>
+                <span class="member-role">Coordinator & Strategic Planning</span>
+                <p class="member-desc">Memimpin perancangan strategi bisnis, manajemen timeline, dan koordinasi antar divisi kerja.</p>
                 <div class="skill-chips">
-                  <span class="chip chip-1">Vendor Sourcing</span>
-                  <span class="chip chip-2">Quality Control</span>
+                  <span class="chip chip-1">Project Mgmt</span>
+                  <span class="chip chip-2">Client Relation</span>
                 </div>
               </div>
             </div>
@@ -144,13 +144,13 @@ const SLIDES_DATA = [
               <div class="member-info">
                 <div class="member-header">
                   <h3 class="member-name">Rangga Aji Hidayatullah</h3>
-                  <span class="member-badge-role">Marketing</span>
+                  <span class="member-badge-role">Presensi: 22</span>
                 </div>
-                <span class="member-role">Marketing, Digital Promo & Financial Ops</span>
-                <p class="member-desc">Mengelola operasional *cash-flow* DP 50%, pembukuan keuntungan, kampanye WhatsApp, dan promosi media sosial.</p>
+                <span class="member-role">Management Financial</span>
+                <p class="member-desc">Mencari pendanaan, mengelola arus kas, dan membuat laporan keuangan perusahaan.</p>
                 <div class="skill-chips">
                   <span class="chip chip-1">Financial Ops</span>
-                  <span class="chip chip-2">Social Marketing</span>
+                  <span class="chip chip-2">Cash Flow</span>
                 </div>
               </div>
             </div>
@@ -568,134 +568,14 @@ const SLIDES_DATA = [
   },
 
   // ==========================================
-  // SLIDE 7: Katalog Produk & Layanan
+  // SLIDE 7: Skema Finansial & Sistem DP 50%
   // ==========================================
   {
     id: 7,
-    title: "Katalog Produk & Layanan",
-    subSteps: 4,
-    render: (step) => `
-      <div class="slide-content anim-slide-7">
-        <div class="slide-header anim-header">
-          <span class="slide-eyebrow">Portofolio Layanan Terintegrasi</span>
-          <h2 class="slide-heading">Produk & Jasa yang Ditawarkan Almera</h2>
-          <p class="slide-desc">Dua pilar utama: Layanan Jasa Desain Grafis Digital & Pembuatan Fisik Aneka Merchandise.</p>
-        </div>
-
-        <div class="catalog-grid">
-          <div class="catalog-card sub-item ${step >= 1 ? 'revealed' : ''} ${step === 1 ? 'focus-active' : ''}" style="--cat-i: 1;" data-step="1">
-            <div class="card-badge-row">
-              <span class="cat-badge">JASA DESAIN</span>
-              <span class="cat-price-pill anim-price-shimmer">Rp 25k–50k</span>
-            </div>
-            <div class="cat-icon-wrap anim-prod-float-1"><i class="ri-t-shirt-2-line"></i></div>
-            <h3>Baju PDH & Topi Ekskul</h3>
-            <p>Perancangan mockup kemeja PDH resmi ekskul, polo shirt, dan desain bordir komputer dengan tata letak proporsional dan siap diproduksi.</p>
-            <div class="card-features">
-              <span class="feat-line"><i class="ri-check-line"></i> Mockup 3 Sudut</span>
-              <span class="feat-line"><i class="ri-check-line"></i> Format File Lengkap</span>
-            </div>
-          </div>
-
-          <div class="catalog-card sub-item ${step >= 2 ? 'revealed' : ''} ${step === 2 ? 'focus-active' : ''}" style="--cat-i: 2;" data-step="2">
-            <div class="card-badge-row">
-              <span class="cat-badge">MERCHANDISE</span>
-              <span class="cat-price-pill anim-price-shimmer">Rp 5k–10k/pcs</span>
-            </div>
-            <div class="cat-icon-wrap anim-prod-float-2"><i class="ri-key-2-line"></i></div>
-            <h3>Pin & Gantungan Kunci</h3>
-            <p>Gantungan kunci akrilik 2 sisi dan pin peniti glossy premium sebagai cenderamata pelantikan anggota, tanda panitia, atau souvenir kegiatan.</p>
-            <div class="card-features">
-              <span class="feat-line"><i class="ri-check-line"></i> Akrilik Laser Cut</span>
-              <span class="feat-line"><i class="ri-check-line"></i> Lapis Anti Gores</span>
-            </div>
-          </div>
-
-          <div class="catalog-card sub-item ${step >= 3 ? 'revealed' : ''} ${step === 3 ? 'focus-active' : ''}" style="--cat-i: 3;" data-step="3">
-            <div class="card-badge-row">
-              <span class="cat-badge">MERCHANDISE</span>
-              <span class="cat-price-pill anim-price-shimmer">Rp 20k–35k/pcs</span>
-            </div>
-            <div class="cat-icon-wrap anim-prod-float-3"><i class="ri-handbag-line"></i></div>
-            <h3>Totebag Custom Sablon</h3>
-            <p>Totebag kanvas tebal dengan sablon DTF tajam beresolusi tinggi, ramah lingkungan, awet dicuci, dan estetik untuk seragam harian anggota ekskul.</p>
-            <div class="card-features">
-              <span class="feat-line"><i class="ri-check-line"></i> Kanvas Premium</span>
-              <span class="feat-line"><i class="ri-check-line"></i> Sablon Full Colour</span>
-            </div>
-          </div>
-
-          <div class="catalog-card sub-item ${step >= 4 ? 'revealed' : ''} ${step === 4 ? 'focus-active' : ''}" style="--cat-i: 4;" data-step="4">
-            <div class="card-badge-row">
-              <span class="cat-badge">MEDIA ACARA</span>
-              <span class="cat-price-pill anim-price-shimmer">Rp 18k–25k/m</span>
-            </div>
-            <div class="cat-icon-wrap anim-prod-float-4"><i class="ri-flag-2-line"></i></div>
-            <h3>Banner & Spanduk Acara</h3>
-            <p>Jasa desain grafis kreatif dan cetak spanduk flexi outdoor tahan cuaca untuk pelantikan, turnamen olahraga, seminar, dan pentas seni sekolah.</p>
-            <div class="card-features">
-              <span class="feat-line"><i class="ri-check-line"></i> Flexi Outdoor 280g</span>
-              <span class="feat-line"><i class="ri-check-line"></i> Ring Mata Ayam Siap Pasang</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  // ==========================================
-  // SLIDE 8: Keunggulan Kompetitif
-  // ==========================================
-  {
-    id: 8,
-    title: "Keunggulan Kompetitif Almera",
-    subSteps: 3,
-    render: (step) => `
-      <div class="slide-content anim-slide-8">
-        <div class="slide-header anim-header">
-          <span class="slide-eyebrow">Value Proposition & Diferensiasi</span>
-          <h2 class="slide-heading">Mengapa Almera Jadi Pilihan Terbaik?</h2>
-          <p class="slide-desc">Tiga keunggulan strategis yang membedakan Almera dari vendor luar sekolah pada umumnya.</p>
-        </div>
-
-        <div class="features-row">
-          <div class="feature-box sub-item ${step >= 1 ? 'revealed' : ''} ${step === 1 ? 'focus-active' : ''}" style="--feat-i: 1;" data-step="1">
-            <div class="feature-number anim-watermark">01</div>
-            <div class="feat-icon-wrap anim-feat-halo-1"><i class="ri-paint-brush-line"></i></div>
-            <h3>100% Desain Orisinil & Custom</h3>
-            <p>Desain disesuaikan sepenuhnya dengan karakter, filosofi lambang, dan warna identitas setiap ekskul, bukan sekadar mendownload template pasaran.</p>
-            <div class="feat-badge-chip">Eksklusif & Bernilai Tinggi</div>
-          </div>
-
-          <div class="feature-box sub-item ${step >= 2 ? 'revealed' : ''} ${step === 2 ? 'focus-active' : ''}" style="--feat-i: 2;" data-step="2">
-            <div class="feature-number anim-watermark">02</div>
-            <div class="feat-icon-wrap anim-feat-halo-2"><i class="ri-wallet-3-line"></i></div>
-            <h3>Harga Ramah Kantong Pelajar</h3>
-            <p>Skema tarif sangat terjangkau karena Almera mengeliminasi biaya sewa ruko fisik dan beban margin perantara pihak ketiga.</p>
-            <div class="feat-badge-chip">Hemat 20%–30% Dibanding Vendor Luar</div>
-          </div>
-
-          <div class="feature-box sub-item ${step >= 3 ? 'revealed' : ''} ${step === 3 ? 'focus-active' : ''}" style="--feat-i: 3;" data-step="3">
-            <div class="feature-number anim-watermark">03</div>
-            <div class="feat-icon-wrap anim-feat-halo-3"><i class="ri-map-pin-user-line"></i></div>
-            <h3>Satu Lingkungan Sekolah</h3>
-            <p>Koordinasi tatap muka langsung saat jam istirahat, revisi super cepat, dan penyerahan barang tanpa ongkir maupun risiko barang hilang di ekspedisi.</p>
-            <div class="feat-badge-chip">Cepat, Aman & Transparan</div>
-          </div>
-        </div>
-      </div>
-    `
-  },
-
-  // ==========================================
-  // SLIDE 9: Skema Finansial & Sistem DP 50%
-  // ==========================================
-  {
-    id: 9,
     title: "Skema Modal & Sistem DP 50%",
     subSteps: 2,
     render: (step) => `
-      <div class="slide-content anim-slide-9">
+      <div class="slide-content anim-slide-7">
         <div class="slide-header anim-header">
           <span class="slide-eyebrow">Manajemen Keuangan & Mitigasi Risiko</span>
           <h2 class="slide-heading">Modal Awal Minim & Proteksi Cash-Flow DP 50%</h2>
@@ -753,14 +633,641 @@ const SLIDES_DATA = [
   },
 
   // ==========================================
-  // SLIDE 10: Struktur Harga & Interactive Profit Calculator
+  // SLIDE 8: Katalog Produk & Layanan Merchandise
+  // ==========================================
+  {
+    id: 8,
+    title: "Katalog Produk & Layanan",
+    subSteps: 4,
+    render: (step) => `
+      <div class="slide-content anim-slide-8">
+        <div class="slide-header anim-header">
+          <span class="slide-eyebrow">Portofolio Layanan Terintegrasi</span>
+          <h2 class="slide-heading">Produk & Jasa yang Ditawarkan Almera</h2>
+          <p class="slide-desc">Dua pilar utama: Layanan Jasa Desain Grafis Digital Murni & Pembuatan Fisik Aneka Merchandise melalui 2 Mitra Vendor.</p>
+        </div>
+
+        <div class="catalog-grid">
+          <div class="catalog-card sub-item ${step >= 1 ? 'revealed' : ''} ${step === 1 ? 'focus-active' : ''}" style="--cat-i: 1;" data-step="1">
+            <div class="card-badge-row">
+              <span class="cat-badge">PAKET PANITIA</span>
+              <span class="cat-price-pill anim-price-shimmer">Rp 12,5k–16k</span>
+            </div>
+            <div class="cat-icon-wrap anim-prod-float-1"><i class="ri-id-card-line"></i></div>
+            <h3>ID Card & Tali Lanyard</h3>
+            <p>Paket kartu identitas panitia/peserta pelantikan lengkap dengan tali lanyard cetak custom 1 sisi atau 2 sisi. Mitra: <strong>Utama Grafika</strong>.</p>
+            <div class="card-features">
+              <span class="feat-line"><i class="ri-check-line"></i> Kartu Tebal & Tali Halus</span>
+              <span class="feat-line"><i class="ri-check-line"></i> Order Fleksibel 50–150 pcs</span>
+            </div>
+          </div>
+
+          <div class="catalog-card sub-item ${step >= 2 ? 'revealed' : ''} ${step === 2 ? 'focus-active' : ''}" style="--cat-i: 2;" data-step="2">
+            <div class="card-badge-row">
+              <span class="cat-badge">SOUVENIR RESMI</span>
+              <span class="cat-price-pill anim-price-shimmer">Rp 4k–6k</span>
+            </div>
+            <div class="cat-icon-wrap anim-prod-float-2"><i class="ri-key-2-line"></i></div>
+            <h3>Ganci Akrilik & Pin Peniti</h3>
+            <p>Gantungan kunci akrilik bening presisi laser cut 2 sisi dan pin peniti glossy premium sebagai tanda pelantikan anggota ekskul. Mitra: <strong>Bagja & Utama Grafika</strong>.</p>
+            <div class="card-features">
+              <span class="feat-line"><i class="ri-check-line"></i> Akrilik Anti Gores</span>
+              <span class="feat-line"><i class="ri-check-line"></i> Peniti Anti Karat</span>
+            </div>
+          </div>
+
+          <div class="catalog-card sub-item ${step >= 3 ? 'revealed' : ''} ${step === 3 ? 'focus-active' : ''}" style="--cat-i: 3;" data-step="3">
+            <div class="card-badge-row">
+              <span class="cat-badge">MEDIA PUBLIKASI</span>
+              <span class="cat-price-pill anim-price-shimmer">Rp 9k–22k/m</span>
+            </div>
+            <div class="cat-icon-wrap anim-prod-float-3"><i class="ri-flag-2-line"></i></div>
+            <h3>Banner MMT, Paperbag & Stiker</h3>
+            <p>Spanduk flexi outdoor tahan cuaca dengan mata ayam siap pasang, paperbag ekskul eksklusif, dan cetak stiker meteran full colour. Mitra: <strong>Bagja</strong>.</p>
+            <div class="card-features">
+              <span class="feat-line"><i class="ri-check-line"></i> Flexi Outdoor 280g Awet</span>
+              <span class="feat-line"><i class="ri-check-line"></i> Cetak Cepat 1–2 Hari Jadi</span>
+            </div>
+          </div>
+
+          <div class="catalog-card sub-item ${step >= 4 ? 'revealed' : ''} ${step === 4 ? 'focus-active' : ''}" style="--cat-i: 4;" data-step="4">
+            <div class="card-badge-row">
+              <span class="cat-badge highlight-badge">KREATIF MURNI</span>
+              <span class="cat-price-pill anim-price-shimmer">Rp 25k–50k</span>
+            </div>
+            <div class="cat-icon-wrap anim-prod-float-4"><i class="ri-t-shirt-2-line"></i></div>
+            <h3>Desain Baju PDH & Topi Ekskul</h3>
+            <p>Jasa perancangan visual mockup 3D kemeja PDH resmi, polo shirt, dan topi ekskul siap jahit & bordir komputer. <strong>Produksi murni tim Almera (HPP Rp 0)</strong>.</p>
+            <div class="card-features">
+              <span class="feat-line"><i class="ri-check-line"></i> Mockup 3 Sudut HD</span>
+              <span class="feat-line"><i class="ri-check-line"></i> File Vector Siap Konveksi</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  // ==========================================
+  // SLIDE 9: Keunggulan Kompetitif Almera
+  // ==========================================
+  {
+    id: 9,
+    title: "Keunggulan Kompetitif Almera",
+    subSteps: 3,
+    render: (step) => `
+      <div class="slide-content anim-slide-9">
+        <div class="slide-header anim-header">
+          <span class="slide-eyebrow">Value Proposition & Diferensiasi</span>
+          <h2 class="slide-heading">Mengapa Almera Jadi Pilihan Terbaik?</h2>
+          <p class="slide-desc">Tiga keunggulan strategis yang membedakan Almera dari vendor luar sekolah pada umumnya.</p>
+        </div>
+
+        <div class="features-row">
+          <div class="feature-box sub-item ${step >= 1 ? 'revealed' : ''} ${step === 1 ? 'focus-active' : ''}" style="--feat-i: 1;" data-step="1">
+            <div class="feature-number anim-watermark">01</div>
+            <div class="feat-icon-wrap anim-feat-halo-1"><i class="ri-paint-brush-line"></i></div>
+            <h3>100% Desain Orisinil & Custom</h3>
+            <p>Desain disesuaikan sepenuhnya dengan karakter, filosofi lambang, dan warna identitas setiap ekskul, bukan sekadar mendownload template pasaran.</p>
+            <div class="feat-badge-chip">Eksklusif & Bernilai Tinggi</div>
+          </div>
+
+          <div class="feature-box sub-item ${step >= 2 ? 'revealed' : ''} ${step === 2 ? 'focus-active' : ''}" style="--feat-i: 2;" data-step="2">
+            <div class="feature-number anim-watermark">02</div>
+            <div class="feat-icon-wrap anim-feat-halo-2"><i class="ri-wallet-3-line"></i></div>
+            <h3>Harga Ramah Kantong Pelajar</h3>
+            <p>Skema tarif sangat terjangkau karena Almera mengeliminasi biaya sewa ruko fisik dan beban margin perantara pihak ketiga.</p>
+            <div class="feat-badge-chip">Hemat 20%–30% Dibanding Vendor Luar</div>
+          </div>
+
+          <div class="feature-box sub-item ${step >= 3 ? 'revealed' : ''} ${step === 3 ? 'focus-active' : ''}" style="--feat-i: 3;" data-step="3">
+            <div class="feature-number anim-watermark">03</div>
+            <div class="feat-icon-wrap anim-feat-halo-3"><i class="ri-map-pin-user-line"></i></div>
+            <h3>Satu Lingkungan Sekolah</h3>
+            <p>Koordinasi tatap muka langsung saat jam istirahat, revisi super cepat, dan penyerahan barang tanpa ongkir maupun risiko barang hilang di ekspedisi.</p>
+            <div class="feat-badge-chip">Cepat, Aman & Transparan</div>
+          </div>
+        </div>
+      </div>
+    `
+  },
+
+  // ==========================================
+  // SLIDE 10: Rantai Pasok Vendor, HPP & Analisis BEP
   // ==========================================
   {
     id: 10,
+    title: "Rantai Pasok, HPP & Analisis BEP",
+    subSteps: 4,
+    render: (step) => `
+      <div class="slide-content slide-financial-cinematic anim-slide-10" data-phase="${step}">
+        <!-- Header (Slides up when step >= 1 to give massive stage room) -->
+        <div class="slide-header s10-header ${step >= 1 ? 'header-docked-out' : ''}">
+          <span class="slide-eyebrow">Manajemen Rantai Pasok & Titik Impas</span>
+          <h2 class="slide-heading">Rantai Pasok Vendor, Rincian HPP & Analisis BEP</h2>
+          <p class="slide-desc">Transparansi rantai pasok dua vendor rekanan, kalkulasi margin sehat, dan pembuktian kelayakan usaha melalui titik impas (Break Even Point).</p>
+        </div>
+
+        <!-- Stage Area -->
+        <div class="s10-stage-area">
+          
+          <!-- Left Navigation Pillar Deck (Morphs from Center on step 0 to Left Sidebar on step >= 1) -->
+          <div class="s10-master-pillar">
+            <div class="s10-pillar-top-bar">
+              <div class="s10-pillar-badge">
+                <span class="pillar-dot"></span>
+                <span>ARSITEKTUR KEUANGAN ALMERA</span>
+              </div>
+              <div class="s10-dock-back-btn ${step >= 1 ? 'visible' : ''}" role="button" tabindex="0" title="Kembali ke Ikhtisar Pilar">
+                <i class="ri-arrow-left-s-line"></i> <span>Ikhtisar</span>
+              </div>
+            </div>
+            
+            <div class="s10-pillar-hero" role="button" tabindex="0" title="Klik untuk fokus ikhtisar">
+              <div class="s10-hero-icon"><i class="ri-funds-box-line"></i></div>
+              <div class="s10-hero-text">
+                <h3 class="s10-hero-title">Model Bisnis & Profitabilitas</h3>
+                <p class="s10-hero-sub">Kelayakan usaha diuji melalui 4 pilar finansial terukur</p>
+              </div>
+            </div>
+
+            <!-- 4 Interactive Step Tabs -->
+            <div class="s10-nav-tabs">
+              <div class="s10-nav-pillar ${step === 1 ? 'active-pillar' : ''} ${step > 1 ? 'passed-pillar' : ''}" data-step="1" role="button" tabindex="0">
+                <span class="p-num">01</span>
+                <div class="p-info">
+                  <strong>2 Mitra Vendor & Biaya Tetap</strong>
+                  <span>Utama Grafika & Bagja • FC Rp 350k</span>
+                </div>
+                <span class="p-status"><i class="${step > 1 ? 'ri-check-line' : (step === 1 ? 'ri-arrow-right-line' : 'ri-arrow-right-s-line')}"></i></span>
+              </div>
+
+              <div class="s10-nav-pillar ${step === 2 ? 'active-pillar' : ''} ${step > 2 ? 'passed-pillar' : ''}" data-step="2" role="button" tabindex="0">
+                <span class="p-num">02</span>
+                <div class="p-info">
+                  <strong>Matriks HPP vs Harga Jual</strong>
+                  <span>9 Komoditas Produk • Margin 31%–100%</span>
+                </div>
+                <span class="p-status"><i class="${step > 2 ? 'ri-check-line' : (step === 2 ? 'ri-arrow-right-line' : 'ri-arrow-right-s-line')}"></i></span>
+              </div>
+
+              <div class="s10-nav-pillar ${step === 3 ? 'active-pillar' : ''} ${step > 3 ? 'passed-pillar' : ''}" data-step="3" role="button" tabindex="0">
+                <span class="p-num">03</span>
+                <div class="p-info">
+                  <strong>Break Even Point (BEP)</strong>
+                  <span>Target Impas • Bukti 1 Event 129%</span>
+                </div>
+                <span class="p-status"><i class="${step > 3 ? 'ri-check-line' : (step === 3 ? 'ri-arrow-right-line' : 'ri-arrow-right-s-line')}"></i></span>
+              </div>
+
+              <div class="s10-nav-pillar ${step === 4 ? 'active-pillar' : ''} ${step > 4 ? 'passed-pillar' : ''}" data-step="4" role="button" tabindex="0">
+                <span class="p-num">04</span>
+                <div class="p-info">
+                  <strong>Bagi Hasil 4 Anggota Tim</strong>
+                  <span>Rp 254.000 – Rp 608.000 / orang / bln</span>
+                </div>
+                <span class="p-status"><i class="${step > 4 ? 'ri-check-line' : (step === 4 ? 'ri-arrow-right-line' : 'ri-arrow-right-s-line')}"></i></span>
+              </div>
+            </div>
+
+            <div class="s10-step0-hint">
+              <i class="ri-cursor-line"></i> Klik salah satu pilar atau tekan <strong>[1-4]</strong> / <strong>Spasi</strong> untuk eksplorasi interaktif
+            </div>
+          </div>
+
+          <!-- Right Dynamic Inspection Showcase -->
+          <div class="s10-showcase-deck">
+            
+            <!-- Panel 1: Vendor Rekanan & Rantai Pasok (Step 1) -->
+            <div class="s10-focus-panel panel-step-1 ${step === 1 ? 'panel-active' : ''}" data-step="1">
+              <div class="s10-panel-header">
+                <div class="s10-tag-wrap">
+                  <span class="s10-tag"><i class="ri-store-2-line"></i> PILAR 01</span>
+                  <span class="s10-tag-sub">Rantai Pasok Produksi Mandiri</span>
+                </div>
+                <h3 class="s10-panel-title">2 Mitra Vendor Rekanan & Struktur Biaya Tetap</h3>
+              </div>
+
+              <div class="s10-vendors-grid">
+                <div class="s10-vendor-card card-v1">
+                  <div class="vcard-top">
+                    <div class="vcard-badge">VENDOR 01</div>
+                    <span class="vcard-loc"><i class="ri-map-pin-2-line"></i> Solo Raya</span>
+                  </div>
+                  <h4 class="vcard-name">Utama Grafika</h4>
+                  <p class="vcard-desc">Mitra produksi cetak presisi untuk atribut kartu identitas dan pin peniti seragam. Menawarkan MOQ fleksibel mulai 50 pcs ramah kantong organisasi sekolah.</p>
+                  <div class="vcard-products">
+                    <div class="vp-item">
+                      <span class="vp-name">Pin Peniti Glossy</span>
+                      <strong class="vp-price">HPP: Rp 2.000</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Tali Lanyard Saja (50-150 pcs)</span>
+                      <strong class="vp-price">HPP: Rp 8.500</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Paket ID Card + Lanyard (1 Sisi)</span>
+                      <strong class="vp-price">HPP: Rp 8.500</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Paket ID Card + Lanyard (2 Sisi)</span>
+                      <strong class="vp-price">HPP: Rp 10.500</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="s10-vendor-card card-v2">
+                  <div class="vcard-top">
+                    <div class="vcard-badge">VENDOR 02</div>
+                    <span class="vcard-loc"><i class="ri-map-pin-2-line"></i> Sragen</span>
+                  </div>
+                  <h4 class="vcard-name">Bagja</h4>
+                  <p class="vcard-desc">Mitra produksi akrilik laser cut, digital printing outdoor, packaging, dan stiker. Waktu pengerjaan ekspres 1–2 hari kerja siap ambil tanpa biaya ongkos kirim ekspedisi.</p>
+                  <div class="vcard-products">
+                    <div class="vp-item">
+                      <span class="vp-name">Ganci Akrilik Custom</span>
+                      <strong class="vp-price">HPP: Rp 3.500</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Banner MMT Flexi 280g</span>
+                      <strong class="vp-price">HPP: Rp 15.000/m</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Paperbag Ekskul Custom</span>
+                      <strong class="vp-price">HPP: Rp 10.000</strong>
+                    </div>
+                    <div class="vp-item">
+                      <span class="vp-name">Stiker Cetak Meteran / A3</span>
+                      <strong class="vp-price">HPP: Rp 4.500/m</strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="s10-fixed-cost-bar">
+                <div class="fc-bar-left">
+                  <div class="fc-bar-ico"><i class="ri-shield-keyhole-line"></i></div>
+                  <div>
+                    <strong>Biaya Tetap Operasional (Fixed Cost Bulanan):</strong>
+                    <p>Biaya operasional yang harus tertutup setiap bulan agar bisnis tetap berjalan sehat</p>
+                  </div>
+                </div>
+                <div class="fc-bar-right">
+                  <div class="fc-amount">Rp 350.000 <small>/ bln</small></div>
+                  <div class="fc-chips">
+                    <span>Kuota: 100k</span> • <span>Bensin Kurir: 100k</span> • <span>Kemasan/Label: 75k</span> • <span>Cadangan Garansi: 75k</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 2: Matriks Detail HPP & Margin (Step 2) -->
+            <div class="s10-focus-panel panel-step-2 ${step === 2 ? 'panel-active' : ''}" data-step="2">
+              <div class="s10-panel-header">
+                <div class="s10-tag-wrap">
+                  <span class="s10-tag"><i class="ri-scales-3-line"></i> PILAR 02</span>
+                  <span class="s10-tag-sub">Kalkulasi Margin Sehat</span>
+                </div>
+                <h3 class="s10-panel-title">Struktur HPP, Harga Jual & Margin Kotor 9 Produk</h3>
+              </div>
+
+              <div class="s10-table-card">
+                <table class="s10-matrix-table">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Komoditas Produk / Jasa</th>
+                      <th>Sumber Produksi</th>
+                      <th>HPP Vendor</th>
+                      <th>Harga Jual Siswa</th>
+                      <th>Margin Bersih</th>
+                      <th>Persentase</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="td-no">1</td>
+                      <td><strong>Paket ID Card + Lanyard (1 Sisi)</strong></td>
+                      <td><span class="source-tag v1">Utama Grafika</span></td>
+                      <td>Rp 8.500</td>
+                      <td>Rp 13.500</td>
+                      <td class="td-profit">+Rp 5.000</td>
+                      <td><span class="pct-badge">37,0%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">2</td>
+                      <td><strong>Paket ID Card + Lanyard (2 Sisi)</strong></td>
+                      <td><span class="source-tag v1">Utama Grafika</span></td>
+                      <td>Rp 10.500</td>
+                      <td>Rp 16.000</td>
+                      <td class="td-profit">+Rp 5.500</td>
+                      <td><span class="pct-badge">34,4%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">3</td>
+                      <td><strong>Tali Lanyard Saja (50–150 pcs)</strong></td>
+                      <td><span class="source-tag v1">Utama Grafika</span></td>
+                      <td>Rp 8.500</td>
+                      <td>Rp 12.500</td>
+                      <td class="td-profit">+Rp 4.000</td>
+                      <td><span class="pct-badge">32,0%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">4</td>
+                      <td><strong>Pin Peniti Glossy Bulat</strong></td>
+                      <td><span class="source-tag v1">Utama Grafika</span></td>
+                      <td>Rp 2.000</td>
+                      <td>Rp 4.000</td>
+                      <td class="td-profit highlight-profit">+Rp 2.000</td>
+                      <td><span class="pct-badge high">50,0%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">5</td>
+                      <td><strong>Gantungan Kunci Akrilik 2 Sisi</strong></td>
+                      <td><span class="source-tag v2">Bagja</span></td>
+                      <td>Rp 3.500</td>
+                      <td>Rp 6.000</td>
+                      <td class="td-profit highlight-profit">+Rp 2.500</td>
+                      <td><span class="pct-badge high">41,7%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">6</td>
+                      <td><strong>Banner MMT Outdoor (per meter)</strong></td>
+                      <td><span class="source-tag v2">Bagja</span></td>
+                      <td>Rp 15.000</td>
+                      <td>Rp 22.000</td>
+                      <td class="td-profit">+Rp 7.000</td>
+                      <td><span class="pct-badge">31,8%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">7</td>
+                      <td><strong>Paperbag Ekskul Tebal</strong></td>
+                      <td><span class="source-tag v2">Bagja</span></td>
+                      <td>Rp 10.000</td>
+                      <td>Rp 15.000</td>
+                      <td class="td-profit">+Rp 5.000</td>
+                      <td><span class="pct-badge">33,3%</span></td>
+                    </tr>
+                    <tr>
+                      <td class="td-no">8</td>
+                      <td><strong>Stiker Meteran / A3 Cetak</strong></td>
+                      <td><span class="source-tag v2">Bagja</span></td>
+                      <td>Rp 4.500</td>
+                      <td>Rp 9.000</td>
+                      <td class="td-profit highlight-profit">+Rp 4.500</td>
+                      <td><span class="pct-badge high">50,0%</span></td>
+                    </tr>
+                    <tr class="row-pure-service">
+                      <td class="td-no star">★</td>
+                      <td><strong>Jasa Desain Baju PDH & Topi</strong></td>
+                      <td><span class="source-tag internal">Internal Almera</span></td>
+                      <td><strong>Rp 0</strong></td>
+                      <td>Rp 25.000 – 50.000</td>
+                      <td class="td-profit max-profit">+Rp 25k–50k</td>
+                      <td><span class="pct-badge crown">100% LABA</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Panel 3: Formula Titik Impas & Pembuktian 1 Event (Step 3) -->
+            <div class="s10-focus-panel panel-step-3 ${step === 3 ? 'panel-active' : ''}" data-step="3">
+              <div class="s10-panel-header">
+                <div class="s10-tag-wrap">
+                  <span class="s10-tag"><i class="ri-pie-chart-2-line"></i> PILAR 03</span>
+                  <span class="s10-tag-sub">Metode Titik Impas</span>
+                </div>
+                <h3 class="s10-panel-title">Analisis Break Even Point (BEP) & Pembuktian 1 Event</h3>
+              </div>
+
+              <div class="s10-bep-split">
+                <div class="s10-bep-formula-box">
+                  <span class="bep-box-kicker">FORMULA DASAR TITIK IMPAS</span>
+                  <div class="bep-formula-display">
+                    <span class="f-part">BEP Unit</span>
+                    <span class="f-eq">=</span>
+                    <span class="f-fraction">
+                      <span class="f-top">Fixed Cost (Rp 350.000)</span>
+                      <span class="f-bottom">Margin Kontribusi per Unit</span>
+                    </span>
+                  </div>
+
+                  <div class="bep-targets-list">
+                    <div class="bep-tar-row">
+                      <span class="b-prod"><i class="ri-id-card-line"></i> Paket ID Card + Lanyard:</span>
+                      <span class="b-math">350k / 5k</span>
+                      <strong class="b-target">70 Paket</strong>
+                    </div>
+                    <div class="bep-tar-row">
+                      <span class="b-prod"><i class="ri-key-2-line"></i> Ganci Akrilik Custom:</span>
+                      <span class="b-math">350k / 2.5k</span>
+                      <strong class="b-target">140 Pcs</strong>
+                    </div>
+                    <div class="bep-tar-row">
+                      <span class="b-prod"><i class="ri-flag-2-line"></i> Banner MMT Outdoor:</span>
+                      <span class="b-math">350k / 7k</span>
+                      <strong class="b-target">50 Meter</strong>
+                    </div>
+                    <div class="bep-tar-row">
+                      <span class="b-prod"><i class="ri-t-shirt-2-line"></i> Jasa Desain Baju PDH:</span>
+                      <span class="b-math">350k / 35k</span>
+                      <strong class="b-target">10 Pesanan</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="s10-bep-proof-box">
+                  <div class="proof-top">
+                    <div class="proof-crown"><i class="ri-trophy-fill"></i></div>
+                    <div>
+                      <span class="proof-badge">PEMBUKTIAN KELAYAKAN RIIL</span>
+                      <h4 class="proof-title">Simulasi 1 Kepanitiaan Event Ekskul</h4>
+                    </div>
+                  </div>
+                  <p class="proof-scenario">
+                    1 Event Pelantikan Gabungan (OSIS / PMR / Pramuka) memesan paket kepanitiaan standar Almera:
+                  </p>
+
+                  <div class="proof-ledger">
+                    <div class="ledger-row">
+                      <span>50 Paket ID Card + Lanyard (@Rp 5.000):</span>
+                      <strong>Rp 250.000</strong>
+                    </div>
+                    <div class="ledger-row">
+                      <span>50 Ganci Akrilik Pelantikan (@Rp 2.500):</span>
+                      <strong>Rp 125.000</strong>
+                    </div>
+                    <div class="ledger-row">
+                      <span>2 Banner MMT 3x1m (6 meter @Rp 7.000):</span>
+                      <strong>Rp 42.000</strong>
+                    </div>
+                    <div class="ledger-row">
+                      <span>1 Desain Baju PDH Panitia (@Rp 35.000):</span>
+                      <strong>Rp 35.000</strong>
+                    </div>
+                    <div class="ledger-divider"></div>
+                    <div class="ledger-row ledger-gross">
+                      <span>Total Laba Kotor Terkumpul:</span>
+                      <strong>Rp 452.000</strong>
+                    </div>
+                    <div class="ledger-row ledger-fc">
+                      <span>Biaya Tetap Operasional (FC):</span>
+                      <span class="neg-fc">- Rp 350.000</span>
+                    </div>
+                    <div class="ledger-row ledger-net">
+                      <span>Laba Bersih Kas Langsung:</span>
+                      <span class="net-profit">+ Rp 102.000</span>
+                    </div>
+                  </div>
+
+                  <div class="proof-verdict">
+                    <i class="ri-checkbox-circle-fill"></i>
+                    <span><strong>BEP Tercapai 129%!</strong> Hanya butuh 1 event dalam sebulan untuk langsung balik modal dan membukukan laba bersih!</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Panel 4: Proyeksi Profit Sharing 4 Anggota (Step 4) -->
+            <div class="s10-focus-panel panel-step-4 ${step === 4 ? 'panel-active' : ''}" data-step="4">
+              <div class="s10-panel-header">
+                <div class="s10-tag-wrap">
+                  <span class="s10-tag"><i class="ri-group-line"></i> PILAR 04</span>
+                  <span class="s10-tag-sub">Bagi Hasil & Kesejahteraan Anggota</span>
+                </div>
+                <h3 class="s10-panel-title">Proyeksi Penghasilan 4 Anggota Tim per Bulan</h3>
+              </div>
+
+              <div class="s10-members-strip">
+                <div class="m-pill">
+                  <img src="/img/Almera.png" alt="Kelvin" class="m-avatar">
+                  <div class="m-info">
+                    <strong>Kelvin N. R.</strong>
+                    <span>Procurement Marketing</span>
+                  </div>
+                </div>
+                <div class="m-pill">
+                  <img src="/img/Almera.png" alt="Mandala" class="m-avatar">
+                  <div class="m-info">
+                    <strong>Mandala A. S.</strong>
+                    <span>Creative Design Lead</span>
+                  </div>
+                </div>
+                <div class="m-pill">
+                  <img src="/img/Almera.png" alt="Uzairon" class="m-avatar">
+                  <div class="m-info">
+                    <strong>M. Uzairon I.</strong>
+                    <span>Coordinator & Strategic</span>
+                  </div>
+                </div>
+                <div class="m-pill">
+                  <img src="/img/Almera.png" alt="Rangga" class="m-avatar">
+                  <div class="m-info">
+                    <strong>Rangga Aji H.</strong>
+                    <span>Management Financial</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="s10-scenarios-grid">
+                <!-- Skenario 1: Bulan Normal -->
+                <div class="scenario-box normal">
+                  <div class="sc-header">
+                    <span class="sc-badge">TARGET NORMAL (2–3 EVENT / BULAN)</span>
+                    <span class="sc-freq">Bulan Sekolah Reguler</span>
+                  </div>
+                  <div class="sc-calc">
+                    <div class="sc-item">
+                      <span>Omset Penjualan:</span>
+                      <strong>Rp 4.200.000</strong>
+                    </div>
+                    <div class="sc-item">
+                      <span>Laba Kotor Terkumpul:</span>
+                      <strong>Rp 1.620.000</strong>
+                    </div>
+                    <div class="sc-item">
+                      <span>Biaya Tetap Operasional (FC):</span>
+                      <strong class="neg">- Rp 350.000</strong>
+                    </div>
+                    <div class="sc-item sc-net">
+                      <span>Laba Bersih Usaha:</span>
+                      <strong class="net-highlight">Rp 1.270.000</strong>
+                    </div>
+                  </div>
+                  <div class="sc-split-bar">
+                    <div class="split-kas">
+                      <span>Kas Tabungan Almera (20%):</span>
+                      <strong>Rp 254.000</strong>
+                    </div>
+                    <div class="split-members">
+                      <span class="split-lbl">BAGI HASIL PER ORANG (25%):</span>
+                      <div class="split-val anim-glow-val">Rp 254.000 <small>/ org / bln</small></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Skenario 2: Peak Season -->
+                <div class="scenario-box peak">
+                  <div class="sc-header">
+                    <span class="sc-badge peak-badge">PEAK SEASON (MUSIM RAMAI)</span>
+                    <span class="sc-freq">MPLS, Pelantikan Serentak & Classmeeting</span>
+                  </div>
+                  <div class="sc-calc">
+                    <div class="sc-item">
+                      <span>Omset Penjualan:</span>
+                      <strong>Rp 8.500.000</strong>
+                    </div>
+                    <div class="sc-item">
+                      <span>Laba Kotor Terkumpul:</span>
+                      <strong>Rp 3.490.000</strong>
+                    </div>
+                    <div class="sc-item">
+                      <span>Biaya Tetap Operasional (FC):</span>
+                      <strong class="neg">- Rp 450.000</strong>
+                    </div>
+                    <div class="sc-item sc-net">
+                      <span>Laba Bersih Usaha:</span>
+                      <strong class="net-highlight peak-text">Rp 3.040.000</strong>
+                    </div>
+                  </div>
+                  <div class="sc-split-bar">
+                    <div class="split-kas">
+                      <span>Kas Tabungan Almera (20%):</span>
+                      <strong>Rp 608.000</strong>
+                    </div>
+                    <div class="split-members peak-members">
+                      <span class="split-lbl">BAGI HASIL PER ORANG (25%):</span>
+                      <div class="split-val anim-glow-val peak-glow">Rp 608.000 <small>/ org / bln</small></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="s10-conclusion-note">
+                <div class="note-icon"><i class="ri-lightbulb-flash-line"></i></div>
+                <p>
+                  <strong>Simpulan Kesejahteraan Tim:</strong> Di sela jam sekolah di SMK Negeri 2 Sragen, setiap anggota kelompok Almera memperoleh penghasilan mandiri <strong>Rp 254.000 – Rp 608.000 per bulan</strong> sekaligus membangun aset kas usaha cadangan secara berkelanjutan.
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    `
+  },
+
+  // ==========================================
+  // SLIDE 11: Struktur Harga & Interactive Profit Calculator
+  // ==========================================
+  {
+    id: 11,
     title: "Struktur Harga & Simulasi Omset",
     subSteps: 0,
     render: () => `
-      <div class="slide-content anim-slide-10">
+      <div class="slide-content anim-slide-11">
         <div class="slide-header anim-header">
           <span class="slide-eyebrow">Pricing Strategy & Interactive Simulation</span>
           <h2 class="slide-heading">Daftar Harga & Simulasi Omset Interaktif</h2>
@@ -775,38 +1282,38 @@ const SLIDES_DATA = [
             </div>
             <div class="price-row anim-prow-1">
               <div class="prod-meta">
-                <span class="prod-name">Jasa Desain Grafis Mockup</span>
-                <span class="prod-sub">Revisi hingga sepakat</span>
+                <span class="prod-name">Paket ID Card + Lanyard</span>
+                <span class="prod-sub">Cetak custom 1 / 2 sisi glossy</span>
               </div>
-              <span class="tag-price">Rp 25.000 – 50.000</span>
+              <span class="tag-price">Rp 13.500 – 16.000 / pkt</span>
             </div>
             <div class="price-row anim-prow-2">
               <div class="prod-meta">
-                <span class="prod-name">Pin & Gantungan Kunci</span>
-                <span class="prod-sub">Akrilik 2 sisi glossy</span>
+                <span class="prod-name">Ganci Akrilik Custom</span>
+                <span class="prod-sub">Laser cut 2 sisi anti-gores</span>
               </div>
-              <span class="tag-price">Rp 5.000 – 10.000 / pcs</span>
+              <span class="tag-price">Rp 6.000 / pcs</span>
             </div>
             <div class="price-row anim-prow-3">
               <div class="prod-meta">
-                <span class="prod-name">Totebag Kanvas Sablon DTF</span>
-                <span class="prod-sub">Kain kanvas tebal</span>
+                <span class="prod-name">Pin Peniti Glossy</span>
+                <span class="prod-sub">Lapis glossy anti-karat</span>
               </div>
-              <span class="tag-price">Rp 20.000 – 35.000 / pcs</span>
+              <span class="tag-price">Rp 4.000 / pcs</span>
             </div>
             <div class="price-row anim-prow-4">
               <div class="prod-meta">
-                <span class="prod-name">Baju PDH Ekskul Lengkap</span>
-                <span class="prod-sub">Desain mockup + jahit bordir</span>
+                <span class="prod-name">Banner MMT Outdoor</span>
+                <span class="prod-sub">Flexi 280g + ring mata ayam</span>
               </div>
-              <span class="tag-price">Rp 110.000 – 145.000 / pcs</span>
+              <span class="tag-price">Rp 22.000 / meter</span>
             </div>
             <div class="price-row anim-prow-5">
               <div class="prod-meta">
-                <span class="prod-name">Banner & Spanduk Outdoor</span>
-                <span class="prod-sub">Flexi 280g siap pasang</span>
+                <span class="prod-name">Jasa Desain Baju PDH</span>
+                <span class="prod-sub">Vector & mockup siap konveksi</span>
               </div>
-              <span class="tag-price">Rp 18.000 – 25.000 / meter</span>
+              <span class="tag-price">Rp 25.000 – 50.000</span>
             </div>
           </div>
 
@@ -821,32 +1328,34 @@ const SLIDES_DATA = [
                 <label for="calc-product">Pilih Kategori Produk:</label>
                 <div class="custom-select-wrap">
                   <select id="calc-product" class="calc-input">
-                    <option value="pdh">Baju PDH Ekskul (Jual: Rp 125k • Margin: Rp 25k/pcs)</option>
-                    <option value="ganci">Pin / Ganci Akrilik (Jual: Rp 7k • Margin: Rp 2.5k/pcs)</option>
-                    <option value="totebag">Totebag Custom (Jual: Rp 28k • Margin: Rp 8k/pcs)</option>
-                    <option value="banner">Banner Acara 3x1m (Jual: Rp 60k • Margin: Rp 20k/pcs)</option>
+                    <option value="idcard">Paket ID Card + Lanyard (Jual: Rp 13.5k • Margin: Rp 5k/pkt)</option>
+                    <option value="ganci">Ganci Akrilik (Jual: Rp 6k • Margin: Rp 2.5k/pcs)</option>
+                    <option value="pin">Pin Peniti Glossy (Jual: Rp 4k • Margin: Rp 2k/pcs)</option>
+                    <option value="mmt">Banner MMT 3x1m (Jual: Rp 66k • Margin: Rp 21k/pcs)</option>
+                    <option value="paperbag">Paperbag Ekskul (Jual: Rp 15k • Margin: Rp 5k/pcs)</option>
+                    <option value="desain_pdh">Jasa Desain PDH (Jual: Rp 35k • Margin: Rp 35k/desain)</option>
                   </select>
                 </div>
               </div>
               
               <div class="calc-field">
-                <label for="calc-qty">Estimasi Jumlah Pesanan (Pcs/Meter):</label>
-                <input id="calc-qty" type="number" class="calc-input" value="30" min="1" max="500" />
+                <label for="calc-qty">Estimasi Jumlah Pesanan (Pcs/Paket):</label>
+                <input id="calc-qty" type="number" class="calc-input" value="50" min="1" max="500" />
               </div>
             </div>
 
             <div class="calc-result-panel">
               <div class="result-item">
                 <span class="res-lbl">Total Nilai Omset:</span>
-                <strong id="res-omset">Rp 3.750.000</strong>
+                <strong id="res-omset">Rp 675.000</strong>
               </div>
               <div class="result-item">
                 <span class="res-lbl">Uang Muka (DP 50% Masuk):</span>
-                <strong id="res-dp">Rp 1.875.000</strong>
+                <strong id="res-dp">Rp 337.500</strong>
               </div>
               <div class="result-item highlight-profit anim-profit-breathe">
                 <span class="res-lbl">Estimasi Keuntungan Bersih:</span>
-                <strong id="res-profit">Rp 750.000</strong>
+                <strong id="res-profit">Rp 250.000</strong>
               </div>
             </div>
           </div>
@@ -856,14 +1365,14 @@ const SLIDES_DATA = [
   },
 
   // ==========================================
-  // SLIDE 11: Target Konsumen & Strategi Promosi
+  // SLIDE 12: Target Konsumen & Strategi Promosi
   // ==========================================
   {
-    id: 11,
+    id: 12,
     title: "Target Konsumen & Strategi Promosi",
     subSteps: 3,
     render: (step) => `
-      <div class="slide-content anim-slide-11">
+      <div class="slide-content anim-slide-12">
         <div class="slide-header anim-header">
           <span class="slide-eyebrow">Strategi Pemasaran & Kanal Distribusi</span>
           <h2 class="slide-heading">Target Pasar Spesifik & Taktik Penjualan</h2>
@@ -909,14 +1418,14 @@ const SLIDES_DATA = [
   },
 
   // ==========================================
-  // SLIDE 12: Kesimpulan, Harapan & Sesi Q&A
+  // SLIDE 13: Kesimpulan, Harapan & Sesi Q&A
   // ==========================================
   {
-    id: 12,
+    id: 13,
     title: "Kesimpulan, Harapan & Sesi Q&A",
     subSteps: 1,
     render: (step) => `
-      <div class="slide-content slide-closing anim-slide-12">
+      <div class="slide-content slide-closing anim-slide-13">
         <div class="slide-header anim-header text-center">
           <span class="slide-eyebrow">Penutup Presentasi Rencana Usaha</span>
           <h2 class="slide-heading">Kesimpulan & Komitmen Berkelanjutan</h2>

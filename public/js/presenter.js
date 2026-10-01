@@ -22,12 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStep = 0;
   const totalSlides = SLIDES_DATA.length;
 
-  // Bangun map subSteps & judul per slide
+  // Bangun map subSteps & judul per slide berbasis indeks urutan 1..N
   const slideStepsMap = {};
   const slideTitles = [];
-  SLIDES_DATA.forEach(s => {
-    slideStepsMap[s.id] = s.subSteps || 0;
-    slideTitles.push(s.title || `Slide ${s.id}`);
+  SLIDES_DATA.forEach((s, index) => {
+    slideStepsMap[index + 1] = s.subSteps || 0;
+    slideTitles.push(s.title || `Slide ${index + 1}`);
   });
 
   // ==========================================================
@@ -137,6 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inisialisasi widget interaktif jika ada di slide saat ini
     if (currentSlide === 10) {
+      setupFinancialPillarsClick();
+    } else if (currentSlide === 11) {
       setupPriceCalculator();
     }
   }
@@ -173,11 +175,52 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // 2. Standard .sub-item elements on other slides
+    // 2. Slide 10 Cinematic Financial Morphing
+    const slide10 = slideWrapper.querySelector('.slide-financial-cinematic');
+    if (slide10) {
+      slide10.setAttribute('data-phase', step);
+
+      const s10Header = slide10.querySelector('.s10-header');
+      if (s10Header) {
+        s10Header.classList.toggle('header-docked-out', step >= 1);
+      }
+
+      const dockBackBtn = slide10.querySelector('.s10-dock-back-btn');
+      if (dockBackBtn) {
+        dockBackBtn.classList.toggle('visible', step >= 1);
+      }
+
+      const s10Pillars = slide10.querySelectorAll('.s10-nav-pillar');
+      s10Pillars.forEach((pillar) => {
+        const pStep = parseInt(pillar.getAttribute('data-step'), 10);
+        const isActive = step === pStep;
+        const isPassed = step > pStep;
+        pillar.classList.toggle('active-pillar', isActive);
+        pillar.classList.toggle('passed-pillar', isPassed);
+        const icon = pillar.querySelector('.p-status i');
+        if (icon) {
+          if (isActive) {
+            icon.className = 'ri-arrow-right-line';
+          } else if (isPassed) {
+            icon.className = 'ri-check-line';
+          } else {
+            icon.className = 'ri-arrow-right-s-line';
+          }
+        }
+      });
+
+      const focusPanels = slide10.querySelectorAll('.s10-focus-panel');
+      focusPanels.forEach((panel) => {
+        const panelStep = parseInt(panel.getAttribute('data-step'), 10);
+        panel.classList.toggle('panel-active', step === panelStep);
+      });
+    }
+
+    // 3. Standard .sub-item elements on other slides
     const subItems = slideWrapper.querySelectorAll('.sub-item');
     subItems.forEach((el) => {
       const itemStep = parseInt(el.getAttribute('data-step'), 10) || 1;
-      const isCardWithFocus = el.matches('.team-card, .problem-card, .catalog-card, .feature-box, .promo-card');
+      const isCardWithFocus = el.matches('.team-card, .problem-card, .catalog-card, .feature-box, .promo-card, .bep-panel');
 
       if (step >= itemStep) {
         el.classList.add('revealed');
@@ -192,10 +235,59 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 3. Spotlight Modal Overlay untuk Masalah #5 di Slide 3
+    // 4. Spotlight Modal Overlay untuk Masalah #5 di Slide 3
     const spotlightOverlay = slideWrapper.querySelector('.problem-spotlight-overlay');
     if (spotlightOverlay) {
       spotlightOverlay.classList.toggle('active', step === 5);
+    }
+  }
+
+  // Interaktivitas Tab Pilar Finansial Slide 10
+  function setupFinancialPillarsClick() {
+    const slide10 = slideWrapper.querySelector('.slide-financial-cinematic');
+    if (!slide10) return;
+
+    const navigateToStep = (targetStep) => {
+      if (currentRoomId && socket.connected) {
+        socket.emit('action:step', { roomId: currentRoomId, step: targetStep });
+      } else {
+        currentStep = targetStep;
+        updateSubStep(currentStep);
+      }
+    };
+
+    // 1. Klik & Keydown pada 4 Tab Pilar
+    const pillars = slide10.querySelectorAll('.s10-nav-pillar');
+    pillars.forEach((pillar) => {
+      const stepTarget = parseInt(pillar.getAttribute('data-step'), 10);
+      if (!isNaN(stepTarget)) {
+        pillar.addEventListener('click', () => navigateToStep(stepTarget));
+        pillar.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            navigateToStep(stepTarget);
+          }
+        });
+      }
+    });
+
+    // 2. Tombol & Header Ikhtisar (Kembali ke Step 0)
+    const dockBackBtn = slide10.querySelector('.s10-dock-back-btn');
+    if (dockBackBtn) {
+      dockBackBtn.addEventListener('click', () => navigateToStep(0));
+      dockBackBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          navigateToStep(0);
+        }
+      });
+    }
+
+    const pillarHero = slide10.querySelector('.s10-pillar-hero');
+    if (pillarHero) {
+      pillarHero.addEventListener('click', () => {
+        if (currentStep > 0) navigateToStep(0);
+      });
     }
   }
 
@@ -210,16 +302,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!productSelect || !qtyInput) return;
 
     const priceConfig = {
-      pdh: { price: 125000, margin: 25000 },
-      ganci: { price: 7000, margin: 2500 },
-      totebag: { price: 28000, margin: 8000 },
-      banner: { price: 60000, margin: 20000 }
+      idcard: { price: 13500, margin: 5000 },
+      ganci: { price: 6000, margin: 2500 },
+      pin: { price: 4000, margin: 2000 },
+      mmt: { price: 66000, margin: 21000 },
+      paperbag: { price: 15000, margin: 5000 },
+      desain_pdh: { price: 35000, margin: 35000 }
     };
 
     function recalculate() {
       const selected = productSelect.value;
       const qty = parseInt(qtyInput.value, 10) || 0;
-      const config = priceConfig[selected] || priceConfig.pdh;
+      const config = priceConfig[selected] || priceConfig.idcard;
 
       const totalOmset = config.price * qty;
       const totalDp = totalOmset * 0.5;
@@ -249,6 +343,19 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('keydown', (e) => {
     // Abaikan jika sedang mengetik di input kalkulator
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+
+    // Pintasan Angka Khusus Slide 10 (Pilar Finansial)
+    if (currentSlide === 10 && ['0', '1', '2', '3', '4'].includes(e.key)) {
+      e.preventDefault();
+      const targetStep = parseInt(e.key, 10);
+      if (currentRoomId && socket.connected) {
+        socket.emit('action:step', { roomId: currentRoomId, step: targetStep });
+      } else {
+        currentStep = targetStep;
+        updateSubStep(currentStep);
+      }
+      return;
+    }
 
     if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
       e.preventDefault();

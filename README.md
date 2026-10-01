@@ -15,10 +15,11 @@ Aplikasi ini menggabungkan tampilan slide presentasi resolusi tinggi di layar pr
 ## Fitur Unggulan
 
 ### 1. Web Slide Presenter (Tampilan Laptop / Proyektor)
-- **12 Slide Bisnis Interaktif:** Memuat analisis masalah sekolah, 8 ide solusi, matriks scoring terukur, profil tim, skema keuangan, hingga kalkulator harga live.
+- **13 Slide Bisnis Interaktif:** Memuat analisis masalah sekolah, 8 ide solusi, matriks scoring terukur, profil tim, skema keuangan DP 50%, katalog 9 produk riil, analisis HPP & BEP vendor, hingga kalkulator harga live.
 - **Koreografi Animasi Kinetik:** Animasi GPU-accelerated 60 FPS pada setiap pergantian slide dan sub-step.
 - **Dekonstruksi Filosofi Logo (Slide 6):** Transisi sinematik *morphing* logo dan 5 poin analogi filosofis logo dengan efek sorot fokus tajam.
-- **Kalkulator Simulasi Profit Live (Slide 10):** Widget interaktif untuk menghitung estimasi omset, DP 50%, dan margin keuntungan secara langsung saat presentasi berlangsung.
+- **Rantai Pasok Vendor & Analisis BEP (Slide 10):** Transparansi kemitraan vendor (*Utama Grafika* & *Bagja*), matriks HPP per unit, pembuktian titik impas (BEP 1 event 129%), dan simulasi bagi hasil 4 anggota tim.
+- **Kalkulator Simulasi Profit Live (Slide 11):** Widget interaktif untuk menghitung estimasi omset, DP 50%, dan margin keuntungan secara langsung saat presentasi berlangsung.
 - **Dual-Theme Engine (Light & Dark Mode):** Mendukung Mode Gelap (*Dark Umber Earth*) dan Mode Terang (*Warm Artisanal Linen*) yang ramah proyektor dan berstandar aksesibilitas WCAG AAA/AA.
 
 ### 2. Mobile Remote Controller (Smartphone Web Clicker)
