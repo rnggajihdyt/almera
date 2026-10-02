@@ -2,7 +2,6 @@
   "name": "almera-presenter",
   "version": "1.0.0",
   "description": "Web Slide Presenter & Smartphone Remote Controller for Kelompok ALMERA (SMK Negeri 2 Sragen)",
-  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js"
