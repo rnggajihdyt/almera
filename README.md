@@ -109,6 +109,7 @@ almera/
 | `F` | Masuk / keluar mode layar penuh (*Fullscreen*) |
 | `Q` | Membuka / menutup modal QR Code Pairing Remote |
 | `T` | Mengganti tema (*Dark Earth* / *Warm Linen*) secara manual |
+| `O` | Membuka / menutup Peta Slide (*Overview*) — klik thumbnail untuk loncat |
 
 ---
 

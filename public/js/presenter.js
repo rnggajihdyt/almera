@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnCloseModal = document.getElementById('btn-close-modal');
   const btnFullscreen = document.getElementById('btn-fullscreen');
   const remoteStatusBtn = document.getElementById('remote-status-btn');
+  const overviewOverlay = document.getElementById('overview-overlay');
+  const overviewGrid = document.getElementById('overview-grid');
+
+  let overviewBuilt = false;
 
   let currentRoomId = null;
   let currentSlide = 1;
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function resizeCanvas() {
     const scale = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
     slideCanvas.style.transform = `scale(${scale})`;
+    if (overviewOverlay.classList.contains('active')) scaleOverview();
   }
   window.addEventListener('resize', resizeCanvas);
   resizeCanvas();
@@ -77,6 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (currentStep !== prevStep) {
       updateSubStep(currentStep);
     }
+
+    if (isOverviewOpen()) markCurrentOverview();
   });
 
   // Listener Theme Synchronization
@@ -144,9 +151,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Pembaruan granular elemen sub-step tanpa re-render keseluruhan DOM
-  function updateSubStep(step) {
+  // root_opsional: thumbnail overview memakai akar sendiri agar conditions
+  // reveal identik dengan slide sungguhan pada step yang sama.
+  function updateSubStep(step, root = slideWrapper) {
     // 1. Slide 6 Cinematic Multi-Phase Morphing
-    const slide6 = slideWrapper.querySelector('.slide-logo-cinematic');
+    const slide6 = root.querySelector('.slide-logo-cinematic');
     if (slide6) {
       slide6.setAttribute('data-phase', step);
 
@@ -176,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 2. Slide 10 Cinematic Financial Morphing
-    const slide10 = slideWrapper.querySelector('.slide-financial-cinematic');
+    const slide10 = root.querySelector('.slide-financial-cinematic');
     if (slide10) {
       slide10.setAttribute('data-phase', step);
 
@@ -217,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 3. Standard .sub-item elements on other slides
-    const subItems = slideWrapper.querySelectorAll('.sub-item');
+    const subItems = root.querySelectorAll('.sub-item');
     subItems.forEach((el) => {
       const itemStep = parseInt(el.getAttribute('data-step'), 10) || 1;
       const isCardWithFocus = el.matches('.team-card, .problem-card, .catalog-card, .feature-box, .promo-card, .bep-panel');
@@ -236,7 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 4. Spotlight Modal Overlay untuk Masalah #5 di Slide 3
-    const spotlightOverlay = slideWrapper.querySelector('.problem-spotlight-overlay');
+    const spotlightOverlay = root.querySelector('.problem-spotlight-overlay');
     if (spotlightOverlay) {
       spotlightOverlay.classList.toggle('active', step === 5);
     }
@@ -344,6 +353,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Abaikan jika sedang mengetik di input kalkulator
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
 
+    // Overview terbuka: navigasi diserahkan ke scroll grid, slide tidak berubah
+    if (isOverviewOpen()) {
+      if (e.key === 'o' || e.key === 'O' || e.key === 'Escape') {
+        e.preventDefault();
+        toggleOverview(false);
+      }
+      return;
+    }
+
+    if (e.key === 'o' || e.key === 'O') {
+      e.preventDefault();
+      toggleOverview(true);
+      return;
+    }
+
     // Pintasan Angka Khusus Slide 10 (Pilar Finansial)
     if (currentSlide === 10 && ['0', '1', '2', '3', '4'].includes(e.key)) {
       e.preventDefault();
@@ -428,6 +452,119 @@ document.addEventListener('DOMContentLoaded', () => {
   function toggleQrModal() {
     qrModal.classList.toggle('active');
   }
+
+  // ==========================================================
+  // 5. OVERVIEW MODE - Peta grid semua slide (tekan 'O')
+  // ==========================================================
+  const OV_STAGE_W = 1920;
+
+  // Ubah id menjadi data-ov-id supaya tidak bentrok dengan
+  // elemen slide yang sedang aktif (mis. kalkulator slide 11).
+  function neutralizeIds(html) {
+    return html.replace(/\sid="([^"]*)"/g, ' data-ov-id="$1"');
+  }
+
+  function buildOverview() {
+    if (overviewBuilt) return;
+    overviewBuilt = true;
+
+    const frag = document.createDocumentFragment();
+
+    SLIDES_DATA.forEach((slideData, index) => {
+      const num = index + 1;
+      const maxStep = slideData.subSteps || 0;
+
+      const item = document.createElement('button');
+      item.type = 'button';
+      item.className = 'ov-item';
+      item.dataset.index = String(num);
+      item.setAttribute('aria-label', `Slide ${num}: ${slideData.title || ''}`);
+
+      const frame = document.createElement('div');
+      frame.className = 'ov-frame';
+
+      const stage = document.createElement('div');
+      stage.className = 'ov-stage';
+      // Render pada step maksimum agar seluruh konten ter-reveal,
+      // bukan versi kosong step 0.
+      stage.innerHTML = neutralizeIds(slideData.render(maxStep));
+      // Pakai logika reveal yang sama dengan slide sungguhan agar
+      // slide 6 & 10 (yang pakai data-phase, bukan .revealed)
+      // tampil dalam kondisi final yang sama.
+      updateSubStep(maxStep, stage);
+
+      const label = document.createElement('span');
+      label.className = 'ov-label';
+      label.innerText = `${String(num).padStart(2, '0')} · ${slideData.title || 'Slide ' + num}`;
+
+      frame.appendChild(stage);
+      item.append(frame, label);
+      frag.appendChild(item);
+    });
+
+    overviewGrid.appendChild(frag);
+  }
+
+  function scaleOverview() {
+    overviewGrid.querySelectorAll('.ov-item').forEach((item) => {
+      const stage = item.querySelector('.ov-stage');
+      const width = item.clientWidth;
+      if (stage && width > 0) {
+        stage.style.setProperty('--ov-scale', width / OV_STAGE_W);
+      }
+    });
+  }
+
+  function markCurrentOverview() {
+    overviewGrid.querySelectorAll('.ov-item').forEach((item) => {
+      const isCurrent = parseInt(item.dataset.index, 10) === currentSlide;
+      item.classList.toggle('is-current', isCurrent);
+      if (isCurrent) item.setAttribute('aria-current', 'true');
+      else item.removeAttribute('aria-current');
+    });
+  }
+
+  function isOverviewOpen() {
+    return overviewOverlay.classList.contains('active');
+  }
+
+  function toggleOverview(force) {
+    const open = typeof force === 'boolean' ? force : !isOverviewOpen();
+    // Class harus dipasang lebih dulu: overlay ber-display:none sampai
+    // .active aktif, jadi clientWidth hanya terbaca setelah layout terjadi.
+    overviewOverlay.classList.toggle('active', open);
+    if (open) {
+      buildOverview();
+      scaleOverview();
+      markCurrentOverview();
+    }
+  }
+
+  // Loncat ke slide tujuan melalui jalur yang sama dengan navigasi lain:
+  // server yang berwenang, dengan fallback lokal bila belum ada room.
+  function goToSlide(index) {
+    if (currentRoomId && socket.connected) {
+      socket.emit('action:goto', { roomId: currentRoomId, slideIndex: index });
+    } else {
+      currentSlide = index;
+      currentStep = 0;
+      renderSlide('next');
+    }
+  }
+
+  overviewGrid.addEventListener('click', (e) => {
+    const item = e.target.closest('.ov-item');
+    if (!item) return;
+    const target = parseInt(item.dataset.index, 10);
+    if (!isNaN(target) && target >= 1 && target <= totalSlides) {
+      goToSlide(target);
+      toggleOverview(false);
+    }
+  });
+
+  overviewOverlay.addEventListener('click', (e) => {
+    if (e.target === overviewOverlay) toggleOverview(false);
+  });
 
   // Modal event listeners
   btnQrModal.addEventListener('click', toggleQrModal);
