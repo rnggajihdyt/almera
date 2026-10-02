@@ -17,7 +17,11 @@ jobs:
       - name: Setup flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Deploy to Fly.io
-        run: flyctl deploy --remote-only
+      - name: Create app if not exists and Deploy
+        run: |
+          APP_NAME=$(grep -oE 'app\s*=\s*"[^"]+"' fly.toml | cut -d'"' -f2)
+          echo "Target App Name: $APP_NAME"
+          flyctl apps create "$APP_NAME" || true
+          flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
