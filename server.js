@@ -51,12 +51,18 @@ const rooms = new Map();
 
 io.on('connection', (socket) => {
   // Inisialisasi Room Presenter (Laptop)
-  socket.on('room:create', async ({ totalSlides, slideSteps, slideTitles }, callback) => {
+  socket.on('room:create', async ({ totalSlides, slideSteps, slideTitles, clientOrigin }, callback) => {
     const roomId = 'ALMERA-' + Math.random().toString(36).substring(2, 6).toUpperCase();
     socket.join(roomId);
 
-    const localIp = getLocalIpAddress();
-    const remoteUrl = `http://${localIp}:${PORT}/remote?room=${roomId}`;
+    let baseUrl;
+    if (clientOrigin && !clientOrigin.includes('localhost') && !clientOrigin.includes('127.0.0.1')) {
+      baseUrl = clientOrigin;
+    } else {
+      const localIp = getLocalIpAddress();
+      baseUrl = `http://${localIp}:${PORT}`;
+    }
+    const remoteUrl = `${baseUrl}/remote?room=${roomId}`;
 
     let qrDataUrl = '';
     try {

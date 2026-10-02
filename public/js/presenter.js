@@ -48,7 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================
   // 2. SOCKET.IO ROOM INITIALIZATION & PAIRING
   // ==========================================================
-  socket.emit('room:create', { totalSlides, slideSteps: slideStepsMap, slideTitles }, (response) => {
+  socket.emit('room:create', { 
+    totalSlides, 
+    slideSteps: slideStepsMap, 
+    slideTitles,
+    clientOrigin: window.location.origin 
+  }, (response) => {
     if (response && response.success) {
       currentRoomId = response.roomId;
       qrImg.src = response.qrDataUrl;

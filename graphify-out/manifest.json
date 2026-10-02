@@ -1,0 +1,56 @@
+{
+  "package.json": {
+    "mtime": 1789603586.4920764,
+    "seen": 1790858105.7006156,
+    "ast_hash": "b4488862afc7b13f9a9c21fb0229aa42",
+    "semantic_hash": "b4488862afc7b13f9a9c21fb0229aa42"
+  },
+  "public/js/presenter.js": {
+    "mtime": 1789618733.593503,
+    "seen": 1790858105.7006302,
+    "ast_hash": "3a04f4f9c7fe0e97a72e7c11f42bb11d",
+    "semantic_hash": "3a04f4f9c7fe0e97a72e7c11f42bb11d"
+  },
+  "public/js/remote.js": {
+    "mtime": 1789603586.508152,
+    "seen": 1790858105.7006366,
+    "ast_hash": "7f16dc5a1d56d377de82676f9a1bad70",
+    "semantic_hash": "7f16dc5a1d56d377de82676f9a1bad70"
+  },
+  "public/js/slides-data.js": {
+    "mtime": 1789618711.382245,
+    "seen": 1790858105.7006407,
+    "ast_hash": "bf30536a8a211fda932d3d6a70711488",
+    "semantic_hash": "bf30536a8a211fda932d3d6a70711488"
+  },
+  "server.js": {
+    "mtime": 1789644545.9443705,
+    "seen": 1790858105.7006452,
+    "ast_hash": "73ab7c70070592aa1899ecf1c8c047e1",
+    "semantic_hash": "73ab7c70070592aa1899ecf1c8c047e1"
+  },
+  "README.md": {
+    "mtime": 1789618229.7170355,
+    "seen": 1790858105.7006485,
+    "ast_hash": "a3c076fc2ea2a777f05fb88f3c2bd63e",
+    "semantic_hash": "a3c076fc2ea2a777f05fb88f3c2bd63e"
+  },
+  "public/index.html": {
+    "mtime": 1789618120.2529757,
+    "seen": 1790858105.7006521,
+    "ast_hash": "1212859774a6bc02e9faa7f398908023",
+    "semantic_hash": "1212859774a6bc02e9faa7f398908023"
+  },
+  "public/remote.html": {
+    "mtime": 1789618129.463147,
+    "seen": 1790858105.7006547,
+    "ast_hash": "c8b762d46a02325986bdcbf5b17da9b3",
+    "semantic_hash": "c8b762d46a02325986bdcbf5b17da9b3"
+  },
+  "public/img/Almera.png": {
+    "mtime": 1789603586.5032976,
+    "seen": 1790858105.7006578,
+    "ast_hash": "326774c987f9ca558a925319ec52750e",
+    "semantic_hash": "326774c987f9ca558a925319ec52750e"
+  }
+}
