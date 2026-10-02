@@ -85,7 +85,9 @@
   </div>
 
   <!-- Scripts -->
-  <script src="/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js" onerror="this.remove()"></script>
+  <script src="/js/qrcode.min.js"></script>
+  <script src="/js/peerjs.min.js"></script>
   <script src="/js/slides-data.js"></script>
   <script src="/js/presenter.js"></script>
 </body>

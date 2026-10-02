@@ -1,6 +1,6 @@
 // Logic Presenter View (Laptop) - ALMERA
 document.addEventListener('DOMContentLoaded', () => {
-  const socket = io();
+  const socket = typeof io !== 'undefined' ? io({ autoConnect: true, reconnectionAttempts: 2, timeout: 2000 }) : null;
   const slideCanvas = document.getElementById('slide-canvas');
   const slideWrapper = document.getElementById('slide-wrapper');
   const timerDisplay = document.getElementById('timer-display');
@@ -48,53 +48,208 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================
   // 2. SOCKET.IO ROOM INITIALIZATION & PAIRING
   // ==========================================================
-  socket.emit('room:create', { 
-    totalSlides, 
-    slideSteps: slideStepsMap, 
-    slideTitles,
-    clientOrigin: window.location.origin 
-  }, (response) => {
-    if (response && response.success) {
-      currentRoomId = response.roomId;
-      qrImg.src = response.qrDataUrl;
-      remoteUrlText.innerText = response.remoteUrl;
-      console.log('Room Presenter berhasil dibuat:', currentRoomId);
+  // ==========================================================
+  // 2. PAIRING & REALTIME SYNC (WebRTC PeerJS + Socket.io Fallback)
+  // ==========================================================
+  const peerConnections = new Set();
+  let stopwatchSeconds = 0;
+  let isTimerRunning = true;
+
+  // Generate Room ID acak jika belum ada
+  if (!currentRoomId) {
+    currentRoomId = 'ALMERA-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+  }
+
+  function getSlidePayload() {
+    return {
+      currentSlide,
+      currentStep,
+      totalSlides,
+      slideTitle: (slideTitles && slideTitles[currentSlide - 1]) || '',
+      totalStepsForSlide: slideStepsMap[currentSlide] || 0
+    };
+  }
+
+  function broadcastSlideSync() {
+    const payload = { type: 'slide:sync', state: getSlidePayload() };
+    for (const conn of peerConnections) {
+      if (conn.open) {
+        try { conn.send(payload); } catch (e) {}
+      }
     }
-  });
+  }
 
-  // Listener Remote Connection Status
-  socket.on('remote:status', ({ connected }) => {
-    if (connected) {
-      statusDot.classList.add('connected');
-      statusText.innerText = 'Remote HP Terhubung!';
-      qrModal.classList.remove('active');
-    } else {
-      statusDot.classList.remove('connected');
-      statusText.innerText = 'Remote HP Terputus';
+  function broadcastTimerSync(secs, running) {
+    const payload = { type: 'timer:sync', stopwatchSeconds: secs, isTimerRunning: running };
+    for (const conn of peerConnections) {
+      if (conn.open) {
+        try { conn.send(payload); } catch (e) {}
+      }
     }
-  });
+  }
 
-  // Listener Slide State Synchronization
-  socket.on('slide:sync', (state) => {
-    const prevSlide = currentSlide;
-    const prevStep = currentStep;
-    currentSlide = state.currentSlide;
-    currentStep = state.currentStep;
-
-    if (currentSlide !== prevSlide) {
-      const direction = currentSlide > prevSlide ? 'next' : 'prev';
-      renderSlide(direction);
-    } else if (currentStep !== prevStep) {
-      updateSubStep(currentStep);
+  function broadcastThemeSync(th) {
+    const payload = { type: 'theme:sync', theme: th };
+    for (const conn of peerConnections) {
+      if (conn.open) {
+        try { conn.send(payload); } catch (e) {}
+      }
     }
+  }
 
-    if (isOverviewOpen()) markCurrentOverview();
-  });
+  // Tampilkan QR Code pairing secara lokal di browser
+  function setupLocalQRCode(roomId) {
+    currentRoomId = roomId;
+    const remoteUrl = `${window.location.origin}/remote?room=${currentRoomId}`;
+    if (remoteUrlText) remoteUrlText.innerText = remoteUrl;
 
-  // Listener Theme Synchronization
-  socket.on('theme:sync', ({ theme }) => {
-    applyTheme(theme);
-  });
+    const qrBox = document.querySelector('.qr-image-box');
+    if (qrBox && typeof QRCode !== 'undefined') {
+      qrBox.innerHTML = '';
+      new QRCode(qrBox, {
+        text: remoteUrl,
+        width: 220,
+        height: 220,
+        colorDark: '#473C33',
+        colorLight: '#F2F2F2',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    }
+  }
+
+  setupLocalQRCode(currentRoomId);
+
+  // Inisialisasi WebRTC PeerJS (Bekerja 100% tanpa server backend di Vercel)
+  function initPresenterPeer() {
+    if (typeof Peer === 'undefined') return;
+    try {
+      const peerId = currentRoomId.toLowerCase();
+      const peer = new Peer(peerId);
+
+      peer.on('open', (id) => {
+        console.log('[WebRTC] Presenter peer aktif dengan ID:', id);
+      });
+
+      peer.on('connection', (conn) => {
+        console.log('[WebRTC] Remote smartphone terhubung!');
+        peerConnections.add(conn);
+        statusDot.classList.add('connected');
+        statusText.innerText = 'Remote HP Terhubung!';
+        qrModal.classList.remove('active');
+
+        conn.on('open', () => {
+          conn.send({ type: 'sync:state', state: getSlidePayload() });
+          conn.send({ type: 'theme:sync', theme: document.documentElement.getAttribute('data-theme') || 'dark' });
+          conn.send({ type: 'timer:sync', stopwatchSeconds, isTimerRunning });
+        });
+
+        conn.on('data', (data) => {
+          if (!data || !data.type) return;
+          if (data.type === 'action:next') triggerNext();
+          else if (data.type === 'action:prev') triggerPrev();
+          else if (data.type === 'action:goto') {
+            if (data.slideIndex) goToSlide(data.slideIndex);
+          }
+          else if (data.type === 'action:step') {
+            if (typeof data.step === 'number') {
+              currentStep = data.step;
+              updateSubStep(currentStep);
+              broadcastSlideSync();
+            }
+          }
+          else if (data.type === 'action:theme-toggle') triggerThemeToggle();
+          else if (data.type === 'timer:toggle') {
+            isTimerRunning = !isTimerRunning;
+            broadcastTimerSync(stopwatchSeconds, isTimerRunning);
+          }
+          else if (data.type === 'timer:reset') {
+            stopwatchSeconds = 0;
+            updateTimerHUD(0);
+            broadcastTimerSync(0, isTimerRunning);
+          }
+        });
+
+        conn.on('close', () => {
+          peerConnections.delete(conn);
+          if (peerConnections.size === 0) {
+            statusDot.classList.remove('connected');
+            statusText.innerText = 'Remote HP Terputus';
+          }
+        });
+
+        conn.on('error', () => {
+          peerConnections.delete(conn);
+          if (peerConnections.size === 0) {
+            statusDot.classList.remove('connected');
+            statusText.innerText = 'Remote HP Terputus';
+          }
+        });
+      });
+
+      peer.on('error', (err) => {
+        console.warn('[WebRTC] Notice:', err.type);
+      });
+    } catch (e) {
+      console.warn('[WebRTC] Init notice:', e);
+    }
+  }
+
+  initPresenterPeer();
+
+  // Socket.io (Tetap aktif jika dijalankan dengan node server.js)
+  if (socket) {
+    socket.emit('room:create', { 
+      totalSlides, 
+      slideSteps: slideStepsMap, 
+      slideTitles,
+      clientOrigin: window.location.origin 
+    }, (response) => {
+      if (response && response.success) {
+        currentRoomId = response.roomId;
+        setupLocalQRCode(currentRoomId);
+        console.log('Room Presenter berhasil dibuat via Socket:', currentRoomId);
+      }
+    });
+
+    socket.on('remote:status', ({ connected }) => {
+      if (connected) {
+        statusDot.classList.add('connected');
+        statusText.innerText = 'Remote HP Terhubung!';
+        qrModal.classList.remove('active');
+      } else if (peerConnections.size === 0) {
+        statusDot.classList.remove('connected');
+        statusText.innerText = 'Remote HP Terputus';
+      }
+    });
+
+    socket.on('slide:sync', (state) => {
+      const prevSlide = currentSlide;
+      const prevStep = currentStep;
+      currentSlide = state.currentSlide;
+      currentStep = state.currentStep;
+
+      if (currentSlide !== prevSlide) {
+        const direction = currentSlide > prevSlide ? 'next' : 'prev';
+        renderSlide(direction);
+      } else if (currentStep !== prevStep) {
+        updateSubStep(currentStep);
+      }
+
+      if (isOverviewOpen()) markCurrentOverview();
+      broadcastSlideSync();
+    });
+
+    socket.on('theme:sync', ({ theme }) => {
+      applyTheme(theme);
+      broadcastThemeSync(theme);
+    });
+
+    socket.on('timer:sync', ({ stopwatchSeconds: totalSecs }) => {
+      stopwatchSeconds = totalSecs;
+      updateTimerHUD(stopwatchSeconds);
+      broadcastTimerSync(stopwatchSeconds, isTimerRunning);
+    });
+  }
 
   function applyTheme(theme) {
     const targetTheme = theme === 'light' ? 'light' : 'dark';
@@ -104,10 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Listener Timer Sync
-  socket.on('timer:sync', ({ stopwatchSeconds }) => {
-    updateTimerHUD(stopwatchSeconds);
-  });
+  // Stopwatch mandiri (aktif terus di laptop tanpa bergantung server)
+  setInterval(() => {
+    if (isTimerRunning) {
+      stopwatchSeconds += 1;
+      updateTimerHUD(stopwatchSeconds);
+      broadcastTimerSync(stopwatchSeconds, isTimerRunning);
+    }
+  }, 1000);
 
   function updateTimerHUD(totalSeconds) {
     const mins = Math.floor(totalSeconds / 60);
@@ -115,7 +274,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
     timerDisplay.innerText = formatted;
 
-    // Tahap waktu: 0-5 menit (Aman), 5-8 menit (Inti), 8-10 menit (Hampir habis)
     timerPill.classList.remove('stage-amber', 'stage-coral');
     if (mins >= 8) {
       timerPill.classList.add('stage-coral');
@@ -405,41 +563,47 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   function triggerThemeToggle() {
-    if (currentRoomId && socket.connected) {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = current === 'light' ? 'dark' : 'light';
+    applyTheme(nextTheme);
+    broadcastThemeSync(nextTheme);
+
+    if (currentRoomId && socket && socket.connected) {
       socket.emit('action:theme-toggle', { roomId: currentRoomId });
-    } else {
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      applyTheme(current === 'light' ? 'dark' : 'light');
     }
   }
 
   function triggerNext() {
-    if (currentRoomId && socket.connected) {
+    if (currentRoomId && socket && socket.connected) {
       socket.emit('action:next', { roomId: currentRoomId });
     } else {
       const maxSteps = slideStepsMap[currentSlide] || 0;
       if (currentStep < maxSteps) {
         currentStep += 1;
         updateSubStep(currentStep);
+        broadcastSlideSync();
       } else if (currentSlide < totalSlides) {
         currentSlide += 1;
         currentStep = 0;
         renderSlide('next');
+        broadcastSlideSync();
       }
     }
   }
 
   function triggerPrev() {
-    if (currentRoomId && socket.connected) {
+    if (currentRoomId && socket && socket.connected) {
       socket.emit('action:prev', { roomId: currentRoomId });
     } else {
       if (currentStep > 0) {
         currentStep -= 1;
         updateSubStep(currentStep);
+        broadcastSlideSync();
       } else if (currentSlide > 1) {
         currentSlide -= 1;
         currentStep = slideStepsMap[currentSlide] || 0;
         renderSlide('prev');
+        broadcastSlideSync();
       }
     }
   }
@@ -548,12 +712,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Loncat ke slide tujuan melalui jalur yang sama dengan navigasi lain:
   // server yang berwenang, dengan fallback lokal bila belum ada room.
   function goToSlide(index) {
-    if (currentRoomId && socket.connected) {
+    if (currentRoomId && socket && socket.connected) {
       socket.emit('action:goto', { roomId: currentRoomId, slideIndex: index });
     } else {
       currentSlide = index;
       currentStep = 0;
       renderSlide('next');
+      broadcastSlideSync();
     }
   }
 

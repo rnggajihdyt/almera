@@ -1,6 +1,6 @@
 // Logic Smartphone Remote Controller (Browser Mobile) - ALMERA
 document.addEventListener('DOMContentLoaded', () => {
-  const socket = io();
+  const socket = typeof io !== 'undefined' ? io({ autoConnect: true, reconnectionAttempts: 2, timeout: 2000 }) : null;
 
   const connIndicator = document.getElementById('conn-indicator');
   const roomCodeText = document.getElementById('room-code-text');
@@ -71,31 +71,112 @@ document.addEventListener('DOMContentLoaded', () => {
     if (reconnectingBox) reconnectingBox.style.display = 'block';
   }
 
+  let remotePeer = null;
+  let peerConn = null;
+
+  function connectPeer(targetRoomId) {
+    if (typeof Peer === 'undefined' || !targetRoomId) return;
+    const cleanId = targetRoomId.trim().toLowerCase();
+    try {
+      if (remotePeer) {
+        try { remotePeer.destroy(); } catch (e) {}
+      }
+      remotePeer = new Peer();
+      remotePeer.on('open', () => {
+        console.log('[WebRTC] Menghubungkan ke presenter:', cleanId);
+        peerConn = remotePeer.connect(cleanId, { reliable: true });
+
+        peerConn.on('open', () => {
+          console.log('[WebRTC] Berhasil terhubung ke proyektor!');
+          hideOverlay();
+          connIndicator.classList.remove('offline');
+        });
+
+        peerConn.on('data', (data) => {
+          handleIncomingData(data);
+        });
+
+        peerConn.on('close', () => {
+          connIndicator.classList.add('offline');
+          showReconnecting('Koneksi Terputus', 'Menghubungkan ulang ke proyektor...');
+          setTimeout(() => connectPeer(currentRoomId), 3000);
+        });
+
+        peerConn.on('error', () => {
+          connIndicator.classList.add('offline');
+          showRoomInputCard(`Presenter '${currentRoomId}' belum siap.`);
+        });
+      });
+
+      remotePeer.on('error', (err) => {
+        console.warn('[WebRTC] Notice:', err.type);
+        if (err.type === 'peer-unavailable') {
+          showRoomInputCard(`Presenter '${currentRoomId}' belum aktif atau kode salah.`);
+        }
+      });
+    } catch (err) {
+      console.warn('[WebRTC] Error:', err);
+    }
+  }
+
+  function handleIncomingData(data) {
+    if (!data) return;
+    if (data.type === 'sync:state' || data.type === 'slide:sync') {
+      updateUIState(data.state);
+      if (data.state && data.state.theme) applyTheme(data.state.theme);
+    } else if (data.type === 'theme:sync') {
+      applyTheme(data.theme);
+    } else if (data.type === 'timer:sync') {
+      updateTimerHUD(data.stopwatchSeconds);
+    }
+  }
+
+  function dispatchAction(type, payload = {}) {
+    let sent = false;
+    if (peerConn && peerConn.open) {
+      peerConn.send({ type, ...payload });
+      sent = true;
+    }
+    if (socket && socket.connected) {
+      socket.emit(type, { roomId: currentRoomId, ...payload });
+      sent = true;
+    }
+    return sent;
+  }
+
   function joinRoom(targetRoomId) {
     if (!targetRoomId) return;
     currentRoomId = targetRoomId.trim().toUpperCase();
     roomCodeText.innerText = currentRoomId;
     showReconnecting('Menghubungkan...', `Mencoba bergabung ke room ${currentRoomId}...`);
 
-    socket.emit('room:join', { roomId: currentRoomId }, (res) => {
-      if (res && res.success) {
-        hideOverlay();
-        connIndicator.classList.remove('offline');
-        updateUIState(res.state);
+    // Hubungkan via WebRTC PeerJS
+    connectPeer(currentRoomId);
 
-        // Perbarui query parameter di address bar tanpa reload
-        try {
-          const newUrl = new URL(window.location.href);
-          newUrl.searchParams.set('room', currentRoomId);
-          window.history.replaceState({}, '', newUrl.toString());
-        } catch (e) {}
-      } else {
-        connIndicator.classList.add('offline');
-        const reason = (res && res.message) ? res.message : 'Room tidak ditemukan';
-        showRoomInputCard(`${reason}. Pastikan presenter sudah aktif dan masukkan kode room yang sesuai.`);
-      }
-    });
+    // Hubungkan via Socket.io jika tersedia
+    if (socket) {
+      socket.emit('room:join', { roomId: currentRoomId }, (res) => {
+        if (res && res.success) {
+          hideOverlay();
+          connIndicator.classList.remove('offline');
+          updateUIState(res.state);
+
+          try {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('room', currentRoomId);
+            window.history.replaceState({}, '', newUrl.toString());
+          } catch (e) {}
+        } else if (!peerConn || !peerConn.open) {
+          connIndicator.classList.add('offline');
+          const reason = (res && res.message) ? res.message : 'Room tidak ditemukan';
+          showRoomInputCard(`${reason}. Pastikan presenter sudah aktif.`);
+        }
+      });
+    }
   }
+
+  // Auto connect saat halaman terbuka
+  joinRoom(currentRoomId);
 
   // Event listener manual input room fallback
   if (formManualRoom) {
@@ -166,31 +247,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================
-  // 4. SOCKET.IO PAIRING & SYNC
+  // 4. SOCKET.IO PAIRING & SYNC (Fallback)
   // ==========================================================
-  socket.on('connect', () => {
-    joinRoom(currentRoomId);
-  });
+  if (socket) {
+    socket.on('connect', () => {
+      joinRoom(currentRoomId);
+    });
 
-  socket.on('disconnect', () => {
-    connIndicator.classList.add('offline');
-    showReconnecting('Koneksi Terputus', 'Mencoba menghubungkan ulang ke proyektor...');
-  });
+    socket.on('disconnect', () => {
+      if (!peerConn || !peerConn.open) {
+        connIndicator.classList.add('offline');
+        showReconnecting('Koneksi Terputus', 'Mencoba menghubungkan ulang ke proyektor...');
+      }
+    });
 
-  socket.on('sync:state', (state) => {
-    updateUIState(state);
-    if (state && state.theme) {
-      applyTheme(state.theme);
-    }
-  });
+    socket.on('sync:state', (state) => {
+      updateUIState(state);
+      if (state && state.theme) applyTheme(state.theme);
+    });
 
-  socket.on('slide:sync', (state) => {
-    updateUIState(state);
-  });
+    socket.on('slide:sync', (state) => {
+      updateUIState(state);
+    });
 
-  socket.on('theme:sync', ({ theme }) => {
-    applyTheme(theme);
-  });
+    socket.on('theme:sync', ({ theme }) => {
+      applyTheme(theme);
+    });
+
+    socket.on('timer:sync', ({ stopwatchSeconds }) => {
+      updateTimerHUD(stopwatchSeconds);
+    });
+  }
 
   function applyTheme(theme) {
     currentTheme = theme === 'light' ? 'light' : 'dark';
@@ -214,11 +301,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btnThemeToggle.addEventListener('click', (e) => {
       e.preventDefault();
       triggerHaptic(40);
-      socket.emit('action:theme-toggle', { roomId: currentRoomId });
+      dispatchAction('action:theme-toggle');
     });
   }
 
-  socket.on('timer:sync', ({ stopwatchSeconds }) => {
+  function updateTimerHUD(stopwatchSeconds) {
     const mins = Math.floor(stopwatchSeconds / 60);
     const secs = stopwatchSeconds % 60;
     remoteTimer.innerText = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
@@ -227,13 +314,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (mins >= 8) {
       remoteTimer.classList.add('stage-coral');
       if (!hasAlerted8Min) {
-        triggerHaptic([60, 40, 60]); // Getar peringatan 8 menit
+        triggerHaptic([60, 40, 60]);
         hasAlerted8Min = true;
       }
     } else if (mins >= 5) {
       remoteTimer.classList.add('stage-amber');
     }
-  });
+  }
 
   function updateUIState(state) {
     if (!state) return;
@@ -266,11 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleNext(e) {
     if (e) e.preventDefault();
     const now = Date.now();
-    if (now - lastActionTime < 180) return; // Anti-spam 180ms
+    if (now - lastActionTime < 180) return;
     lastActionTime = now;
 
     triggerHaptic(50);
-    socket.emit('action:next', { roomId: currentRoomId });
+    dispatchAction('action:next');
   }
 
   function handlePrev(e) {
@@ -280,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lastActionTime = now;
 
     triggerHaptic(30);
-    socket.emit('action:prev', { roomId: currentRoomId });
+    dispatchAction('action:prev');
   }
 
   // Pointerdown untuk latensi tercepat (<10ms)
